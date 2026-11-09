@@ -1,0 +1,30 @@
+# Render Blueprint for the Teck Fluence X API (Express + MongoDB).
+# Render dashboard → New → Blueprint → pick this repo. You'll be asked for the secret values below.
+services:
+  - type: web
+    name: teck-fluence-x-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    plan: starter # free also works, but sleeps after 15 min idle (first request then takes ~50s)
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "true"
+      - key: EVENT_NAME
+        value: Teck Fluence X
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: SEED_DEMO
+        value: "0"
+      - key: MONGODB_URI # MongoDB Atlas connection string
+        sync: false
+      - key: QR_PRIVATE_JWK # from: cd server && npm run deploy-env
+        sync: false
+      - key: JWT_SECRET # from: cd server && npm run deploy-env
+        sync: false
+      - key: ADMIN_PASSWORD # strong password for the first admin login
+        sync: false

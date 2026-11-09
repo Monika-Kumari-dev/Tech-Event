@@ -1,0 +1,48 @@
+# Netlify config — deploys BOTH parts of Teck Fluence X from this repo:
+#   • web/    React PWA            → static site (web/dist)
+#   • server/ Express + MongoDB API → Netlify Function at /api/* (server/netlify/functions/api.mjs)
+# Database: MongoDB Atlas (set MONGODB_URI etc. in Netlify → Site configuration → Environment variables).
+
+[build]
+  base = ""
+  command = "npm ci --prefix server --omit=dev && npm ci --prefix web --include=dev && npm run build --prefix web"
+  publish = "web/dist"
+  functions = "server/netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  # Dev-only in-memory MongoDB — never bundled (production requires MONGODB_URI).
+  ignored_node_modules = ["mongodb-memory-server"]
+
+# 1) API → serverless function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# 2) Single-page app: every other route (/register, /admin, /pass/…) serves index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# The service worker must never be cached, or phones keep running an old version.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), microphone=(), geolocation=()"
