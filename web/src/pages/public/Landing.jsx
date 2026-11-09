@@ -4,10 +4,11 @@ import { QRCodeSVG } from 'qrcode.react';
 import { ArrowRight, ClipboardList, QrCode, ScanLine, ShieldCheck, WifiOff, Search, ChevronRight } from 'lucide-react';
 import { Button, Avatar, Badge } from '../../components/ui.jsx';
 import { passStore } from '../../lib/passStore.js';
+import { ClientArtwork } from '../../components/Branding.jsx';
 import { PublicLayout } from './shared.jsx';
 
 const steps = [
-  { icon: ClipboardList, title: 'Register', text: 'Fill a short form with your name, mobile and email. Takes under a minute.' },
+  { icon: ClipboardList, title: 'Register', text: 'Fill a short form with your name, mobile and family details. Takes under a minute.' },
   { icon: QrCode, title: 'Get your QR', text: 'Your personal pass appears instantly and is saved on this device.' },
   { icon: ScanLine, title: 'Show it at entry', text: 'Staff scan your QR at the gate — it works even without internet.' },
 ];
@@ -42,7 +43,7 @@ function TicketPreview() {
       <div className="rotate-[-3deg] overflow-hidden rounded-[1.75rem] bg-white shadow-[var(--shadow-card)] ring-1 ring-slate-900/5 transition duration-500 hover:rotate-0">
         <div className="bg-gradient-to-br from-brand-600 to-brand-900 px-5 py-4 text-white">
           <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-200">Entry pass</p>
-          <p className="mt-0.5 font-bold">Teck Fluence X</p>
+          <p className="mt-0.5 font-bold">Namma Honda Habba</p>
         </div>
         <div className="relative">
           <div className="absolute -left-3 top-1/2 size-6 -translate-y-1/2 rounded-full bg-slate-50" />
@@ -51,7 +52,7 @@ function TicketPreview() {
         </div>
         <div className="grid place-items-center px-6 pt-5 pb-4">
           <div className="rounded-2xl bg-white p-3 ring-1 ring-slate-100">
-            <QRCodeSVG value="Teck Fluence X — register once, walk in." size={168} level="M" fgColor="#0f172a" />
+            <QRCodeSVG value="Namma Honda Habba — register once, walk in." size={168} level="M" fgColor="#0f172a" />
           </div>
         </div>
         <div className="flex items-center gap-3 border-t border-slate-100 px-5 py-4">
@@ -86,6 +87,11 @@ export default function Landing() {
         </div>
       )}
 
+      <div className="carnival-marquee mb-8 text-center px-5 py-7 sm:py-10">
+        <p className="text-xs uppercase tracking-[.3em] text-amber-200">Honda · Client event</p>
+        <ClientArtwork />
+        <p className="mt-4 text-xs uppercase tracking-widest text-white/70">Event technology &amp; registration by TechfluenceX</p>
+      </div>
       {/* Hero */}
       <section className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-10">
         <div className="text-center lg:text-left animate-fade-up">
@@ -93,13 +99,13 @@ export default function Landing() {
             <ShieldCheck className="size-3.5" /> Secure, signed entry passes
           </span>
           <h1 className="mt-5 text-[2.5rem] leading-[1.05] font-extrabold tracking-tight text-ink-900 sm:text-5xl lg:text-6xl">
-            Register once.{' '}
+            One family.{' '}
             <span className="bg-gradient-to-r from-brand-600 to-brand-500 bg-clip-text text-transparent">
-              Walk in with your QR&nbsp;pass.
+              One grand carnival.
             </span>
           </h1>
           <p className="mx-auto mt-5 max-w-lg text-lg leading-relaxed text-ink-600 lg:mx-0">
-            Sign up in under a minute and get a personal pass on your phone. No printing, no queues at a help desk.
+            Welcome to Namma Honda Habba. Bring the people you love: add up to 5 adult family members and 5 kids, and keep your family QR pass ready for the celebration.
           </p>
 
           <div className="mx-auto mt-8 flex max-w-sm flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center lg:justify-start">

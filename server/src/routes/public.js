@@ -28,9 +28,9 @@ router.post('/register', registerLimiter, async (req, res) => {
   const data = validateRegistration(req.body);
 
   // Friendly pre-check (the unique index below still handles races).
-  const clash = await User.findOne({ $or: [{ email: data.email }, { phone: data.phone }] }, { email: 1, phone: 1 }).lean();
+  const clash = await User.findOne({ $or: [...(data.email ? [{ email: data.email }] : []), { phone: data.phone }] }, { email: 1, phone: 1 }).lean();
   if (clash) {
-    const field = clash.email === data.email ? 'email' : 'phone';
+    const field = data.email && clash.email === data.email ? 'email' : 'phone';
     throw new HttpError(409, DUP_MESSAGES[field], field);
   }
 
@@ -53,11 +53,12 @@ router.post('/register', registerLimiter, async (req, res) => {
 router.post('/pass/lookup', lookupLimiter, async (req, res) => {
   const email = normalizeEmail(req.body?.email);
   const phone = normalizePhone(req.body?.phone);
-  if (!email) throw new HttpError(400, 'Email is required', 'email');
+  const fullName = typeof req.body?.fullName === 'string' ? req.body.fullName.trim().replace(/\s+/g, ' ') : '';
+  if (!email && (fullName.length < 2 || fullName.length > 80)) throw new HttpError(400, 'Full name is required', 'fullName');
   if (!phone) throw new HttpError(400, 'Phone is required', 'phone');
 
-  const user = await User.findOne({ email, phone }).lean();
-  if (!user) throw new HttpError(404, 'No pass found for that email and phone');
+  const user = await User.findOne({ phone, ...(email ? { email } : { fullName: { $regex: `^${fullName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, $options: 'i' } }) }).lean();
+  if (!user) throw new HttpError(404, 'No pass found for those details');
   const [first, qrToken] = await Promise.all([firstCheckinFor(user._id), signPass(user)]);
   res.json({ user: toPublicUser(user, first), qrToken });
 });

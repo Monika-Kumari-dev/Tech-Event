@@ -96,8 +96,7 @@ export function Spinner({ className }) {
 export function Logo({ className }) {
   return (
     <Link to="/" className={cx('inline-flex items-center gap-2 font-extrabold tracking-tight text-ink-900', className)}>
-      <img src="/favicon.svg" alt="" className="size-8" />
-      <span>Teck Fluence <span className="text-brand-600">X</span></span>
+      <span className="flex flex-col leading-tight"><span className="text-[10px] uppercase tracking-[.2em] text-brand-600">Honda · Client event</span><span className="font-serif text-lg">Namma Honda Habba</span></span>
     </Link>
   );
 }

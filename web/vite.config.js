@@ -11,7 +11,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg'],
       manifest: {
-        name: 'Teck Fluence X Event Pass',
+        name: 'Namma Honda Habba Event Pass',
         short_name: 'TFX Pass',
         description: 'Register, get your QR pass, and verify entry — even offline.',
         theme_color: '#4f46e5',

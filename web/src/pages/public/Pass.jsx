@@ -26,7 +26,7 @@ function useQrSize() {
 }
 
 function useEventName() {
-  const [name, setName] = useState(() => eventStore.get() || 'Teck Fluence X');
+  const [name, setName] = useState(() => eventStore.get() || 'Namma Honda Habba');
   useEffect(() => {
     const ctrl = new AbortController();
     api('/public-key', { signal: ctrl.signal })
@@ -60,7 +60,7 @@ function NotOnDevice() {
         </div>
         <h1 className="mt-5 text-xl font-bold tracking-tight text-ink-900">This pass isn't saved on this device</h1>
         <p className="mt-2 text-ink-600 leading-relaxed">
-          For your privacy, passes are only stored on the phone used to register. Look it up with your email and mobile number to load it here.
+          For your privacy, passes are only stored on the phone used to register. Look it up with your full name and mobile number to load it here.
         </p>
         <div className="mt-6 flex flex-col gap-3">
           <Button to="/find-pass" size="lg" icon={Search}>Find my pass</Button>
@@ -230,6 +230,11 @@ export default function Pass() {
           </div>
         </div>
 
+        {!!(user.adults?.length || user.kids?.length) && <div className="px-5 pb-5 text-sm text-ink-700">
+          <p className="font-bold">Family pass · {1 + (user.adults?.length || 0) + (user.kids?.length || 0)} guests</p>
+          {user.adults?.map((m, i) => <p key={`a${i}`}>{m.name} · {m.relationship}</p>)}
+          {user.kids?.map((m, i) => <p key={`k${i}`}>{m.name} · Child</p>)}
+        </div>}
         {checkedIn && user.checkedInAt && (
           <div className="flex items-center gap-2 border-t border-slate-100 bg-success-50 px-5 py-3 text-sm text-success-600">
             <CheckCircle2 className="size-4" /> Checked in {formatDate(user.checkedInAt)}

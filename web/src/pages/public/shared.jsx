@@ -2,6 +2,7 @@
 import { useEffect, useId, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { WifiOff, AlertCircle, LogIn, LayoutDashboard, Menu, X } from 'lucide-react';
+import { ProviderLogo } from '../../components/Branding.jsx';
 import { Logo, Input, cx } from '../../components/ui.jsx';
 
 export function useOnline() {
@@ -148,7 +149,8 @@ export function SiteFooter() {
   return (
     <footer className="no-print border-t border-slate-200 bg-white/60">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-ink-500 sm:flex-row sm:px-6 lg:px-8">
-        <p>© {new Date().getFullYear()} Teck Fluence X · Fast, offline-ready event entry</p>
+        <p>© {new Date().getFullYear()} Namma Honda Habba · Client event</p>
+        <ProviderLogo />
         <nav aria-label="Footer" className="flex items-center gap-1">
           <Link to="/register" className="rounded-md px-2 py-1 hover:text-brand-700 hover:bg-slate-100 transition">Register</Link>
           <Link to="/find-pass" className="rounded-md px-2 py-1 hover:text-brand-700 hover:bg-slate-100 transition">Find my pass</Link>
@@ -163,7 +165,7 @@ export function SiteFooter() {
 // eslint-disable-next-line no-unused-vars
 export function PublicLayout({ children, back, right, wide = false, className }) {
   return (
-    <div className="relative min-h-dvh overflow-x-hidden flex flex-col">
+    <div className="relative min-h-dvh overflow-x-hidden flex flex-col carnival-page">
       <div
         aria-hidden
         className="no-print pointer-events-none absolute inset-x-0 top-0 -z-10 h-[28rem] bg-[radial-gradient(60%_60%_at_50%_0%,var(--color-brand-100),transparent)] opacity-80"

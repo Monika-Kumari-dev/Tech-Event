@@ -1,23 +1,23 @@
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Phone, Search, SearchX, ShieldCheck } from 'lucide-react';
+import { User, Phone, Search, SearchX, ShieldCheck } from 'lucide-react';
 import { Button, Card } from '../../components/ui.jsx';
 import { api, ApiError } from '../../lib/api.js';
 import { passStore } from '../../lib/passStore.js';
 import { PublicLayout, PageTitle, TextField, Alert, OfflineBanner, useOnline, validators } from './shared.jsx';
 
-const FIELDS = ['email', 'phone'];
+const FIELDS = ['fullName', 'phone'];
 
 export default function FindPass() {
   const navigate = useNavigate();
   const online = useOnline();
-  const [values, setValues] = useState({ email: '', phone: '' });
+  const [values, setValues] = useState({ fullName: '', phone: '' });
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null); // 'notfound' | 'offline' | { error }
   const busyRef = useRef(false);
-  const refs = { email: useRef(null), phone: useRef(null) };
+  const refs = { fullName: useRef(null), phone: useRef(null) };
 
   function onChange(e) {
     const { name, value } = e.target;
@@ -38,7 +38,7 @@ export default function FindPass() {
     setResult(null);
     const next = Object.fromEntries(FIELDS.map((f) => [f, validators[f](values[f])]));
     setErrors(next);
-    setTouched({ email: true, phone: true });
+    setTouched({ fullName: true, phone: true });
     const firstBad = FIELDS.find((f) => next[f]);
     if (firstBad) {
       refs[firstBad].current?.focus();
@@ -54,7 +54,7 @@ export default function FindPass() {
     try {
       const res = await api('/pass/lookup', {
         method: 'POST',
-        body: { email: values.email.trim().toLowerCase(), phone: values.phone.trim() },
+        body: { fullName: values.fullName.trim(), phone: values.phone.trim() },
       });
       passStore.set(res);
       navigate(`/pass/${res.user.id}`, { replace: true, state: { pass: res } });
@@ -74,30 +74,14 @@ export default function FindPass() {
       <PageTitle
         eyebrow="Find my pass"
         title="Load your QR pass"
-        subtitle="Enter the email and mobile number you registered with. Both need to match."
+        subtitle="Enter the full name and mobile number you registered with. Both need to match."
       />
 
       {(!online || result === 'offline') && <OfflineBanner what="Finding your pass" />}
 
       <Card className="p-5 sm:p-6 animate-fade-up [animation-delay:60ms]">
         <form noValidate onSubmit={onSubmit} className="space-y-5" aria-busy={loading}>
-          <TextField
-            label="Email"
-            name="email"
-            ref={refs.email}
-            icon={Mail}
-            type="email"
-            inputMode="email"
-            autoComplete="email"
-            autoCapitalize="off"
-            spellCheck={false}
-            placeholder="you@example.com"
-            enterKeyHint="next"
-            value={values.email}
-            onChange={onChange}
-            onBlur={onBlur}
-            error={errors.email || undefined}
-          />
+          <TextField label="Full name" name="fullName" ref={refs.fullName} icon={User} autoComplete="name" placeholder="As entered during registration" value={values.fullName} onChange={onChange} onBlur={onBlur} error={errors.fullName || undefined} />
           <TextField
             label="Mobile number"
             name="phone"
@@ -116,7 +100,7 @@ export default function FindPass() {
 
           {result === 'notfound' && (
             <Alert tone="warn" icon={SearchX} title="No registration matches those details">
-              Check for typos — the email and mobile number must both match what you registered with. New here?{' '}
+              Check for typos — the full name and mobile number must both match what you registered with. New here?{' '}
               <Link to="/register" className="font-semibold underline underline-offset-2">Register now</Link>.
             </Alert>
           )}

@@ -1,4 +1,4 @@
-# Render Blueprint for the Teck Fluence X API (Express + MongoDB).
+# Render Blueprint for the Namma Honda Habba API (Express + MongoDB).
 # Render dashboard → New → Blueprint → pick this repo. You'll be asked for the secret values below.
 services:
   - type: web
@@ -15,7 +15,7 @@ services:
       - key: TRUST_PROXY
         value: "true"
       - key: EVENT_NAME
-        value: Teck Fluence X
+        value: Namma Honda Habba
       - key: ADMIN_USERNAME
         value: admin
       - key: SEED_DEMO

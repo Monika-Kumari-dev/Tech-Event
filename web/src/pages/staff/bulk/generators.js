@@ -3,7 +3,7 @@
 import { loadJsPdf, loadJsZip, loadQrcode, loadXlsx } from './libs.js';
 import { safeName } from './parse.js';
 
-export const BRAND = 'Teck Fluence X';
+export const BRAND = 'Namma Honda Habba';
 const YIELD_EVERY = 25;
 const tick = () => new Promise((r) => setTimeout(r));
 const abortError = () => new DOMException('Cancelled', 'AbortError');

@@ -14,7 +14,7 @@ const ROLES = [
 export default function StaffTab({ call, focusSignal }) {
   const [items, setItems] = useState(null);
   const [error, setError] = useState('');
-  const [form, setForm] = useState({ username: '', name: '', password: '', role: 'verifier' });
+  const [form, setForm] = useState({ username: '', name: '', password: 'Test123', role: 'verifier' });
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState({});
   const [created, setCreated] = useState('');
@@ -48,7 +48,7 @@ export default function StaffTab({ call, focusSignal }) {
     try {
       const res = await call('/admin/staff', { method: 'POST', body: { ...form, username: form.username.trim(), name: form.name.trim() } });
       setCreated(res.staff?.username || form.username);
-      setForm({ username: '', name: '', password: '', role: 'verifier' });
+      setForm({ username: '', name: '', password: 'Test123', role: 'verifier' });
       load();
     } catch (err) {
       setFormError({ [err.field || 'general']: err.message || 'Could not create account.' });
@@ -130,6 +130,7 @@ export default function StaffTab({ call, focusSignal }) {
             </Field>
             <Field label="Password" htmlFor="s-pass" error={formError.password}>
               <Input id="s-pass" icon={KeyRound} type="password" value={form.password} onChange={set('password')} autoComplete="new-password" placeholder="At least 6 characters" error={formError.password} />
+              <p className="mt-1 text-xs text-ink-500">Default: Test123. You can enter a different password.</p>
             </Field>
             <div>
               <span className="block text-sm font-medium text-ink-700 mb-1.5">Role</span>

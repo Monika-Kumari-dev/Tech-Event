@@ -380,6 +380,7 @@ function ResultSheet({ result, onClose, onConfirm, busy, userCount }) {
               <div className="min-w-0">
                 <p className="text-xl font-extrabold leading-tight break-words">{p.fullName || 'Unknown name'}</p>
                 <p className="font-mono text-base font-bold text-ink-700 mt-0.5">{p.code}</p>
+                {!!(p.adults?.length || p.kids?.length) && <div className="mt-2 text-sm text-ink-700"><p className="font-bold">Family: {1 + (p.adults?.length || 0) + (p.kids?.length || 0)} guests</p>{p.adults?.map((m, i) => <p key={`a${i}`}>{m.name} ({m.relationship})</p>)}{p.kids?.map((m, i) => <p key={`k${i}`}>{m.name} (child)</p>)}</div>}
                 {p.organization && <p className="text-sm text-ink-500 truncate">{p.organization}</p>}
               </div>
             </div>

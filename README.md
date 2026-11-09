@@ -52,3 +52,22 @@ Bulk-registered attendees are included in the gate phones' offline list on their
 - Set `MONGODB_URI` (MongoDB Atlas free tier is enough for 5,000 users).
 - **Back up `server/keys/`** — the private key signs every QR pass; losing it invalidates all issued passes.
 - Duplicate entries across gates while offline can't be blocked in real time; they're flagged after sync in Admin → Check-ins.
+
+## Family registration — Namma Honda Habba
+
+Honda / Namma Honda Habba is the client event; TechfluenceX is the service provider.
+Public registration uses full name and mobile number, with no email field. Add up to
+5 additional adults (name and relationship) and 5 children (name). The primary
+registrant is separate from those limits. One QR pass covers the family; gate
+check-in applies to the whole family, and the verifier shows the family list.
+Find a pass using the registered full name and mobile number.
+
+The API accepts optional email for compatibility; bulk Excel imports still require
+email. On startup, the old required-email unique index is replaced with a sparse
+unique index to support multiple registrations without email. Existing records
+and email-based API lookup remain supported.
+
+Admins can create login accounts under **Admin → Staff → Add staff**, choosing
+Admin or Verifier and an editable password prefilled with `Test123`. If an API
+request omits the password, it also defaults to `Test123`. Existing passwords do
+not change.

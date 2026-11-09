@@ -66,7 +66,7 @@ router.post('/users/bulk', async (req, res) => {
         email: r?.email != null ? String(r.email) : '',
         phone: r?.phone,
         organization: r?.organization != null && r.organization !== '' ? String(r.organization) : undefined,
-      });
+      }, { requireEmail: true });
     } catch (err) {
       if (err instanceof HttpError) return failed.push({ row, field: err.field, error: err.message });
       throw err;

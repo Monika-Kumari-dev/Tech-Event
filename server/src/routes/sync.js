@@ -13,7 +13,7 @@ router.use(requireStaff);
 
 export const MAX_CHECKINS_PER_SYNC = 200;
 
-const USER_FIELDS = { code: 1, fullName: 1, phone: 1, email: 1, organization: 1, status: 1, createdAt: 1 };
+const USER_FIELDS = { adults: 1, kids: 1, code: 1, fullName: 1, phone: 1, email: 1, organization: 1, status: 1, createdAt: 1 };
 
 const PHOTO_BUDGET_BYTES = Number(process.env.SNAPSHOT_PHOTO_BUDGET_MB || 4) * 1024 * 1024;
 

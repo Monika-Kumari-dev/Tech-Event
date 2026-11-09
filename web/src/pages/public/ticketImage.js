@@ -4,9 +4,9 @@ import { loadSrc } from '../../lib/image.js';
 const W = 900;
 const H = 1480;
 const C = {
-  brand600: '#4f46e5',
-  brand900: '#1e1b4b',
-  brand200: '#c7d2fe',
+  brand600: '#c92127',
+  brand900: '#102642',
+  brand200: '#f8d88d',
   ink900: '#0f172a',
   ink500: '#64748b',
   slate200: '#e2e8f0',
@@ -85,7 +85,7 @@ export async function renderTicketPng({ qrCanvas, user, eventName }) {
   ctx.fillText('ENTRY PASS', tx + 56, ty + 82);
   ctx.fillStyle = '#ffffff';
   ctx.font = font(800, 52);
-  ctx.fillText(fitText(ctx, eventName || 'Teck Fluence X', tw - 112), tx + 56, ty + 152);
+  ctx.fillText(fitText(ctx, eventName || 'Namma Honda Habba', tw - 112), tx + 56, ty + 152);
 
   // Perforation notches
   ctx.fillStyle = C.bg;
@@ -164,6 +164,11 @@ export async function renderTicketPng({ qrCanvas, user, eventName }) {
     ctx.fillText(fitText(ctx, user.organization, nMax), nx, ay + 122);
   }
 
+  ctx.fillStyle = C.ink500;
+  ctx.font = font(600, 22);
+  ctx.fillText(`Family pass: ${1 + (user.adults?.length || 0) + (user.kids?.length || 0)} guests · ${(user.adults?.length || 0)} additional adults · ${(user.kids?.length || 0)} kids`, tx + 56, ty + th - 85);
+  ctx.font = font(500, 20);
+  ctx.fillText('Service provider: TechfluenceX', tx + 56, ty + th - 45);
   return new Promise((resolve, reject) => {
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Export failed'))), 'image/png');
   });
